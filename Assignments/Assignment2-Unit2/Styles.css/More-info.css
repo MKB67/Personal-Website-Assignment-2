@@ -1,0 +1,91 @@
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: rgb(250, 248, 230);
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  color: rgb(77, 0, 110);
+  line-height: 1.6;
+  padding: 3rem 6rem;
+}
+
+
+h3 {
+  color: rgb(156, 0, 156);
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+}
+
+
+section {
+  margin-bottom: 5rem;
+}
+
+
+p {
+  font-size: 1.1rem;
+  max-width: 800px;
+}
+
+.para2 {
+  margin-top: 2rem;
+  max-width: 800px;
+}
+
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 2rem;
+  border: 2px solid purple;
+}
+
+thead {
+  background-color: #fedef6;
+}
+
+th,
+td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+
+.container {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.box1,
+.box2 {
+  background-color: rgb(221, 230, 247);
+  color: black;
+  padding: 1.5rem;
+  flex: 1;
+  min-width: 280px;
+  line-height: 1.5;
+}
+
+
+.footer {
+  margin-top: 4rem;
+  font-size: 1rem;
+}
+
+.footer a {
+  color: rgb(156, 0, 156);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}

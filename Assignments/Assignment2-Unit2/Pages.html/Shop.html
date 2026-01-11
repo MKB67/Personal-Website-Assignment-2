@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rose Shop</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 2rem;
+        background-color: #fff0f5;
+        color: #333;
+        margin: 0;
+      }
+
+      h1 {
+        color: darkmagenta;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .rose-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 2rem;
+        margin-top: 100px;
+      }
+
+      .rose-card {
+        background: #fff8fb;
+        border-radius: 12px;
+        padding: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .rose-card img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 0.8rem;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .rose-card img:hover {
+        transform: scale(1.1);
+      }
+
+      .rose-card h3 {
+        margin: 0.5rem 0;
+        color: darkmagenta;
+      }
+
+      .rose-card p {
+        font-size: 0.9rem;
+        margin: 0.4rem 0;
+      }
+
+      .rose-card button {
+        margin-top: 0.5rem;
+        padding: 8px 12px;
+        background-color: darkmagenta;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+
+      .rose-card button:hover {
+        background-color: purple;
+      }
+
+      #cart {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 250px;
+        max-height: 80vh;
+        overflow-y: auto;
+        padding: 1rem;
+        border-radius: 12px;
+        background: #fff0f5;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+      }
+
+      #cart h2 {
+        color: darkmagenta;
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+      }
+
+      #cart ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      #cart li {
+        margin-bottom: 0.6rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #cart li span {
+        font-weight: bold;
+        cursor: pointer;
+        color: red;
+      }
+
+      #cart-total {
+        margin-top: 0.8rem;
+        font-weight: bold;
+      }
+
+      #checkoutBtn {
+        margin-top: 0.8rem;
+        width: 100%;
+        padding: 8px 12px;
+        background-color: darkmagenta;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      #checkoutBtn:hover {
+        background-color: purple;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+      }
+
+      .modal-content {
+        background: #fff8fb;
+        padding: 2rem;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        animation: pop 0.3s ease;
+        position: relative;
+      }
+
+      @keyframes pop {
+        from {
+          transform: scale(0.9);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: darkmagenta;
+      }
+
+      .modal-content h2 {
+        color: darkmagenta;
+        margin-top: 0;
+        text-align: center;
+      }
+
+      .modal-content input {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+      }
+
+      .modal-content button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        background-color: darkmagenta;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .modal-content button:hover {
+        background-color: purple;
+      }
+      #homeLink {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background-color: darkmagenta;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: bold;
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
+
+      #homeLink:hover {
+        background-color: purple;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🌹 Rose Shop</h1>
+
+    <a href="Main.html" id="homeLink">🏠 Home</a>
+
+    <div class="rose-container" id="roseContainer"></div>
+
+    <div id="cart">
+      <h2>🛒 Cart (<span id="cart-count">0</span> items)</h2>
+      <ul id="cartItems"></ul>
+      <div id="cart-total">Total: $0.00</div>
+      <button id="checkoutBtn">Checkout</button>
+    </div>
+
+    <div class="modal" id="checkoutModal">
+      <div class="modal-content">
+        <span class="close-btn" id="closeCheckout">✖</span>
+
+        <div id="createAccountForm">
+          <h2>Create Account</h2>
+          <input type="text" id="name" placeholder="Full Name" required />
+          <input type="email" id="email" placeholder="Email" required />
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+          />
+          <button id="submitAccount">Create Account & Checkout</button>
+          <button
+            id="existingAccountBtn"
+            style="background-color: #a34ba3; margin-top: 8px"
+          >
+            Existing Account? Login
+          </button>
+        </div>
+
+        <div id="loginForm" style="display: none">
+          <h2>Login</h2>
+          <input type="email" id="loginEmail" placeholder="Email" required />
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="Password"
+            required
+          />
+          <button id="loginBtn">Login & Checkout</button>
+          <button
+            id="backToCreate"
+            style="background-color: #a34ba3; margin-top: 8px"
+          >
+            Back to Create Account
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const roses = [
+        {
+          name: "Red Rose",
+          price: 3,
+          img: "../Images/Redrose.jpeg",
+          meaning: "Love, passion, and respect.",
+        },
+        {
+          name: "White Rose",
+          price: 2.5,
+          img: "../Images/Whiterose.jpg",
+          meaning: "Purity, innocence, and new beginnings.",
+        },
+        {
+          name: "Yellow Rose",
+          price: 2.8,
+          img: "../Images/Yellowrose.webp",
+          meaning: "Friendship, joy, and caring.",
+        },
+        {
+          name: "Pink Rose",
+          price: 3.2,
+          img: "../Images/Pinkrose.jpeg",
+          meaning: "Gratitude, grace, and admiration.",
+        },
+        {
+          name: "Orange Rose",
+          price: 3.5,
+          img: "../Images/Orangerose.jpeg",
+          meaning: "Enthusiasm, desire, and fascination.",
+        },
+        {
+          name: "Lavender Rose",
+          price: 4,
+          img: "../Images/Lavenderrose.jpeg",
+          meaning: "Love at first sight, enchantment.",
+        },
+        {
+          name: "Black Rose",
+          price: 5,
+          img: "../Images/Blackrose.jpeg",
+          meaning: "Mystery, farewell, and rebirth.",
+        },
+        {
+          name: "Blue Rose",
+          price: 6,
+          img: "../Images/Bluerose.jpeg",
+          meaning: "Symbolizes mystery, the unattainable, and uniqueness.",
+        },
+      ];
+
+      const roseContainer = document.getElementById("roseContainer");
+      const cartItems = document.getElementById("cartItems");
+      const cartCount = document.getElementById("cart-count");
+      const cartTotal = document.getElementById("cart-total");
+      const checkoutBtn = document.getElementById("checkoutBtn");
+      const checkoutModal = document.getElementById("checkoutModal");
+      const closeCheckout = document.getElementById("closeCheckout");
+      const submitAccount = document.getElementById("submitAccount");
+
+      const createAccountForm = document.getElementById("createAccountForm");
+      const loginForm = document.getElementById("loginForm");
+      const existingAccountBtn = document.getElementById("existingAccountBtn");
+      const backToCreate = document.getElementById("backToCreate");
+      const loginBtn = document.getElementById("loginBtn");
+
+      let cart = [];
+
+      roses.forEach((rose, index) => {
+        const card = document.createElement("div");
+        card.className = "rose-card";
+        card.innerHTML = `
+        <img src="${rose.img}" alt="${rose.name}">
+        <h3>${rose.name}</h3>
+        <p>Price: $${rose.price.toFixed(2)}</p>
+        <p><em>${rose.meaning}</em></p>
+        <button data-index="${index}">Add to Cart</button>
+      `;
+        roseContainer.appendChild(card);
+      });
+
+      document.querySelectorAll(".rose-card button").forEach((button) => {
+        button.addEventListener("click", (e) => {
+          const rose = roses[e.target.dataset.index];
+          const existing = cart.find((item) => item.name === rose.name);
+          if (existing) existing.quantity++;
+          else cart.push({ ...rose, quantity: 1 });
+          updateCart();
+        });
+      });
+
+      function updateCart() {
+        cartItems.innerHTML = "";
+        let total = 0;
+        let totalItems = 0;
+
+        cart.forEach((item, i) => {
+          total += item.price * item.quantity;
+          totalItems += item.quantity;
+
+          const li = document.createElement("li");
+          li.innerHTML = `${item.name} - $${item.price.toFixed(2)} x ${
+            item.quantity
+          } <span>&times;</span>`;
+          li.querySelector("span").addEventListener("click", () => {
+            cart.splice(i, 1);
+            updateCart();
+          });
+          cartItems.appendChild(li);
+        });
+
+        cartCount.textContent = totalItems;
+        cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+      }
+
+      checkoutBtn.addEventListener("click", () => {
+        if (cart.length === 0) {
+          alert("Your cart is empty!");
+          return;
+        }
+        createAccountForm.style.display = "block";
+        loginForm.style.display = "none";
+        checkoutModal.style.display = "flex";
+      });
+
+      closeCheckout.addEventListener(
+        "click",
+        () => (checkoutModal.style.display = "none")
+      );
+      checkoutModal.addEventListener("click", (e) => {
+        if (e.target === checkoutModal) checkoutModal.style.display = "none";
+      });
+
+      existingAccountBtn.addEventListener("click", () => {
+        createAccountForm.style.display = "none";
+        loginForm.style.display = "block";
+      });
+
+      backToCreate.addEventListener("click", () => {
+        createAccountForm.style.display = "block";
+        loginForm.style.display = "none";
+      });
+
+      submitAccount.addEventListener("click", () => {
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        if (!name || !email || !password) {
+          alert("Please fill all fields!");
+          return;
+        }
+
+        alert(
+          `Account created for ${name}! Checkout successful.\n${cartTotal.textContent}`
+        );
+        cart = [];
+        updateCart();
+        checkoutModal.style.display = "none";
+      });
+
+      loginBtn.addEventListener("click", () => {
+        const email = document.getElementById("loginEmail").value.trim();
+        const password = document.getElementById("loginPassword").value.trim();
+
+        if (!email || !password) {
+          alert("Please fill all fields!");
+          return;
+        }
+
+        alert(`Welcome back! Checkout successful.\n${cartTotal.textContent}`);
+        cart = [];
+        updateCart();
+        checkoutModal.style.display = "none";
+      });
+    </script>
+  </body>
+</html>

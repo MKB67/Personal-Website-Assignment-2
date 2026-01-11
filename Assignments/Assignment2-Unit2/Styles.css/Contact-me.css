@@ -1,0 +1,21 @@
+p {
+    color:firebrick;
+    font-style: oblique;
+    font-family:serif;
+    background-color:beige;
+    margin-left: 30em;
+    margin-top: 13em;
+    border: relative;
+    
+    font-size: large;
+    font-weight: bold;
+}
+
+a {
+    margin-left: 40rem;
+    
+}
+
+body {
+    background-color:beige;
+}

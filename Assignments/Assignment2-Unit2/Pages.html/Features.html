@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logic Math Game</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #fdf0ff;
+        color: #333;
+        padding: 2em;
+      }
+      #logicGame {
+        padding: 2em;
+        margin-top: 2em;
+        background-color: #f0e6ff;
+        border-radius: 10px;
+        max-width: 600px;
+      }
+      #logicGame h3 {
+        color: darkmagenta;
+      }
+      #submitAnswer {
+        padding: 0.5em 1em;
+        background-color: darkmagenta;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        margin-left: 0.5em;
+        cursor: pointer;
+      }
+      #submitAnswer:hover {
+        background-color: purple;
+      }
+      #answerInput {
+        padding: 0.5em;
+        width: 200px;
+      }
+      #feedback {
+        font-weight: bold;
+        margin-top: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🎲 Logic Math Game</h1>
+    <div id="logicGame">
+      <h3>🧠 Logic & Math Challenge!</h3>
+      <p>Test your brain with AND / OR questions!</p>
+
+      <div id="questionArea" style="margin-bottom: 1em"></div>
+
+      <input type="text" id="answerInput" placeholder="Type true or false" />
+      <button id="submitAnswer">Submit</button>
+
+      <div id="feedback"></div>
+      <div style="margin-top: 1em">Score: <span id="score">0</span></div>
+    </div>
+
+    <script>
+      const questions = [
+        { q: "5 > 3 AND 2 < 4", ans: true },
+        { q: "10 < 7 OR 4 == 4", ans: true },
+        { q: "8 == 8 AND 3 > 5", ans: false },
+        { q: "7 < 2 OR 6 > 5", ans: true },
+        { q: "3 + 2 == 5 AND 2 * 2 == 5", ans: false },
+        { q: "10 / 2 == 5 OR 1 + 1 == 3", ans: true },
+      ];
+
+      let score = 0;
+      let current = 0;
+
+      const questionArea = document.getElementById("questionArea");
+      const answerInput = document.getElementById("answerInput");
+      const feedback = document.getElementById("feedback");
+      const submitBtn = document.getElementById("submitAnswer");
+      const scoreSpan = document.getElementById("score");
+
+      function showQuestion() {
+        questionArea.textContent = "Question: " + questions[current].q;
+        answerInput.value = "";
+        feedback.textContent = "";
+      }
+
+      submitBtn.addEventListener("click", () => {
+        const userAns = answerInput.value.toLowerCase().trim();
+        if (userAns !== "true" && userAns !== "false") {
+          feedback.textContent = "Please type 'true' or 'false'.";
+          feedback.style.color = "red";
+          return;
+        }
+
+        const correctAns = questions[current].ans ? "true" : "false";
+        if (userAns === correctAns) {
+          feedback.textContent = "✅ Correct!";
+          feedback.style.color = "green";
+          score++;
+          scoreSpan.textContent = score;
+        } else {
+          feedback.textContent = "❌ Wrong!";
+          feedback.style.color = "red";
+        }
+
+        current++;
+        if (current >= questions.length) {
+          questionArea.textContent =
+            "🎉 Game over! Final score: " + score + "/" + questions.length;
+          answerInput.style.display = "none";
+          submitBtn.style.display = "none";
+        } else {
+          setTimeout(showQuestion, 1000);
+        }
+      });
+
+      showQuestion();
+    </script>
+    <footer class="footer">
+      <a href="../Pages.html/Main.html">Home?</a>
+    </footer>
+  </body>
+</html>

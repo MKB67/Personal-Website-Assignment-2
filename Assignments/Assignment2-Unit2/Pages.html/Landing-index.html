@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome - Maddie</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../Styles.css/Main.css" />
+
+    <style>
+      #landing {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(135deg, lavender, pink);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+
+      .landing-box {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        text-align: center;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      .choice-btn {
+        display: block;
+        padding: 10px 12px;
+        border-radius: 8px;
+        background: darkmagenta;
+        color: white;
+        font-weight: bold;
+        margin: 6px 0;
+        cursor: pointer;
+        border: none;
+        font-size: 0.95rem;
+        transition: background 0.3s ease, transform 0.2s ease;
+      }
+
+      .choice-btn:hover {
+        background: purple;
+        transform: translateY(-2px);
+      }
+
+      #quizQuestion {
+        font-size: 1.2rem;
+        margin: 10px 0;
+        color: #6b2a6f;
+      }
+
+      #quizFeedback {
+        font-size: 1rem;
+        color: #5a2a5a;
+        margin-top: 5px;
+      }
+
+      #stickerContainer {
+        position: relative;
+        height: 50px;
+        margin-top: 5px;
+      }
+
+      .sticker {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 2rem;
+        animation: pop 1s ease forwards;
+        opacity: 0;
+      }
+
+      @keyframes pop {
+        0% {
+          transform: translateX(-50%) scale(0);
+          opacity: 0;
+        }
+        50% {
+          transform: translateX(-50%) scale(1.3);
+          opacity: 1;
+        }
+        100% {
+          transform: translateX(-50%) scale(1);
+          opacity: 0;
+        }
+      }
+
+      #beerGameContainer {
+        display: none;
+        margin-top: 20px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="landing">
+      <div class="landing-box">
+        <h1>Welcome!</h1>
+        <p>Please answer 1 question to gain access to my webpage!</p>
+
+        <h3 id="quizQuestion"></h3>
+        <div id="quizOptions"></div>
+        <p id="quizFeedback"></p>
+
+        <div id="stickerContainer"></div>
+
+        <div id="postQuizChoices" style="display: none; margin-top: 12px">
+          <button id="playBeerGame" class="choice-btn">
+            🍺 Play Beer Game
+          </button>
+          <button id="homeLink" class="choice-btn">🏠 Go to Homepage</button>
+        </div>
+
+        <div id="beerGameContainer">
+          <p id="beerStats">Beers brewed today: 0</p>
+          <button id="brewBtn" class="choice-btn">Brew 🍺</button>
+          <div id="beerRow" style="margin-top: 10px; font-size: 2rem"></div>
+          <p id="brewMessage"></p>
+          <button id="resetBeerGame" class="choice-btn">
+            🔄 Reset Beer Game
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const quizData = [
+          {
+            question: "Which body part pumps blood?",
+            options: ["Lungs", "Heart", "Brain"],
+            answer: "Heart",
+          },
+          {
+            question: "Which helps you breathe?",
+            options: ["Stomach", "Lungs", "Liver"],
+            answer: "Lungs",
+          },
+          {
+            question: "What organ controls thinking?",
+            options: ["Heart", "Brain", "Kidneys"],
+            answer: "Brain",
+          },
+          {
+            question: "Which part allows you to see?",
+            options: ["Ears", "Eyes", "Nose"],
+            answer: "Eyes",
+          },
+          {
+            question: "What do plants need to make food?",
+            options: ["Sunlight", "Sound", "Wind"],
+            answer: "Sunlight",
+          },
+        ];
+
+        const questionEl = document.getElementById("quizQuestion");
+        const optionsEl = document.getElementById("quizOptions");
+        const feedbackEl = document.getElementById("quizFeedback");
+        const postChoices = document.getElementById("postQuizChoices");
+        const stickerContainer = document.getElementById("stickerContainer");
+        const homeLink = document.getElementById("homeLink");
+        const playBeerGameBtn = document.getElementById("playBeerGame");
+
+        const beerContainer = document.getElementById("beerGameContainer");
+        const beerStats = document.getElementById("beerStats");
+        const beerRow = document.getElementById("beerRow");
+        const brewMessage = document.getElementById("brewMessage");
+        const brewBtn = document.getElementById("brewBtn");
+        const resetBtn = document.getElementById("resetBeerGame");
+
+        let brewCount = 0;
+
+        function showSticker() {
+          const sticker = document.createElement("div");
+          sticker.className = "sticker";
+          const emojis = ["🌟", "🎉", "🏆", "✨", "🥳"];
+          sticker.textContent =
+            emojis[Math.floor(Math.random() * emojis.length)];
+          stickerContainer.appendChild(sticker);
+          setTimeout(() => sticker.remove(), 1000);
+        }
+
+        function showRandomQuestion() {
+          postChoices.style.display = "none";
+          optionsEl.style.display = "block";
+
+          const quiz = quizData[Math.floor(Math.random() * quizData.length)];
+          questionEl.textContent = quiz.question;
+          optionsEl.innerHTML = "";
+
+          quiz.options.forEach((opt) => {
+            const btn = document.createElement("button");
+            btn.textContent = opt;
+            btn.className = "choice-btn";
+            btn.addEventListener("click", () => {
+              if (opt === quiz.answer) {
+                feedbackEl.textContent = "✅ Correct!";
+                showSticker();
+
+                localStorage.setItem("quizPassed", "true");
+
+                optionsEl.style.display = "none";
+                postChoices.style.display = "block";
+              } else {
+                feedbackEl.textContent = "❌ Try again!";
+              }
+            });
+            optionsEl.appendChild(btn);
+          });
+        }
+
+        showRandomQuestion();
+
+        if (homeLink) {
+          homeLink.addEventListener("click", () => {
+            localStorage.setItem("quizPassed", "true");
+            window.location.href = "Main.html";
+          });
+        }
+
+        playBeerGameBtn.addEventListener("click", () => {
+          beerContainer.style.display = "block";
+          playBeerGameBtn.disabled = true;
+        });
+
+        brewBtn.addEventListener("click", () => {
+          brewCount++;
+          beerRow.textContent += "🍺";
+          beerStats.textContent = `Beers brewed today: ${brewCount}`;
+          if (brewCount === 5)
+            brewMessage.textContent = "🍺 You’ve mastered brewing!";
+        });
+
+        resetBtn.addEventListener("click", () => {
+          brewCount = 0;
+          beerRow.textContent = "";
+          beerStats.textContent = "Beers brewed today: 0";
+          brewMessage.textContent = "";
+          beerContainer.style.display = "none";
+          playBeerGameBtn.disabled = false;
+        });
+      });
+    </script>
+  </body>
+</html>

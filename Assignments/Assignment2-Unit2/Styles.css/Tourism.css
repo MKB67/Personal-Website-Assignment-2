@@ -1,0 +1,52 @@
+#tourismContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.city-card {
+  background-color: #fff0f5;
+  border: 1px solid #d1a3d1;
+  border-radius: 10px;
+  padding: 1rem;
+  flex: 0 1 calc(33.33% - 1rem); 
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.city-card h2 {
+  color: darkmagenta;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.city-card p {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+}
+
+.city-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.city-card:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+@media (max-width: 992px) {
+  .city-card {
+    flex: 0 1 calc(50% - 1rem); 
+  }
+}
+
+@media (max-width: 600px) {
+  .city-card {
+    flex: 0 1 100%; 
+  }
+}

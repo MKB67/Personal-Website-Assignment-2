@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Reading</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 2rem;
+        background-image: linear-gradient(
+            rgba(255, 250, 252, 0.9),
+            rgba(255, 250, 252, 0.9)
+          ),
+          url("../Images/library-bg.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
+
+      h1 {
+        color: darkmagenta;
+      }
+
+      .author {
+        cursor: pointer;
+        font-weight: bold;
+        margin: 0.8rem 0;
+        transition: transform 0.2s ease, color 0.2s ease;
+        color: #4b004b;
+      }
+
+      .author:hover {
+        color: darkmagenta;
+        transform: translateX(6px);
+        text-decoration: underline;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background: #fff0f5;
+        padding: 1.5rem;
+        border-radius: 12px;
+        max-width: 500px;
+        width: 90%;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .modal-content h2 {
+        color: darkmagenta;
+        margin-top: 0;
+      }
+
+      .close-btn {
+        float: right;
+        cursor: pointer;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: darkmagenta;
+      }
+
+      ul {
+        padding-left: 1.2rem;
+      }
+
+      li {
+        margin-bottom: 0.6rem;
+      }
+
+      footer {
+        margin-top: 3rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>📚 Authors I’ve Read</h1>
+    <p style="font-style: italic; color: darkmagenta">
+      Click an author to see the books I enjoyed
+    </p>
+
+    <p class="author" data-author="robinCook">Robin Cook</p>
+    <p class="author" data-author="ruthWare">Ruth Ware</p>
+    <p class="author" data-author="leeChild">Lee Child</p>
+    <p class="author" data-author="lyndaLaPlant">Lynda La Plant</p>
+    <p class="author" data-author="greggHurwitz">Gregg Hurwitz</p>
+    <p class="author" data-author="klSlater">K.L. Slater</p>
+
+    <div class="modal" id="bookModal">
+      <div class="modal-content">
+        <span class="close-btn" id="closeModal">✖</span>
+        <h2 id="modalTitle"></h2>
+        <ul id="modalBooks"></ul>
+      </div>
+    </div>
+
+    <script>
+      const authors = {
+        robinCook: {
+          name: "Robin Cook",
+          books: [
+            {
+              title: "Abduction",
+              desc: "A medical thriller about a mysterious kidnapping in the hospital world.",
+            },
+          ],
+        },
+        ruthWare: {
+          name: "Ruth Ware",
+          books: [
+            {
+              title: "The Woman in Cabin 10",
+              desc: "A suspenseful mystery on a luxury cruise where nothing is as it seems.",
+            },
+          ],
+        },
+        leeChild: {
+          name: "Lee Child",
+          books: [
+            {
+              title: "Killing Floor",
+              desc: "First Jack Reacher novel full of action and suspense.",
+            },
+          ],
+        },
+        lyndaLaPlant: {
+          name: "Lynda La Plant",
+          books: [
+            {
+              title: "Vanished",
+              desc: "Crime thriller with twists and a gripping investigation.",
+            },
+          ],
+        },
+        greggHurwitz: {
+          name: "Gregg Hurwitz",
+          books: [
+            {
+              title: "Don't Look Back",
+              desc: "Thrilling story about danger, revenge, and survival.",
+            },
+          ],
+        },
+        klSlater: {
+          name: "K.L. Slater",
+          books: [
+            {
+              title: "Safe With Me",
+              desc: "Psychological thriller with suspenseful plot and strong characters.",
+            },
+          ],
+        },
+      };
+
+      const modal = document.getElementById("bookModal");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalBooks = document.getElementById("modalBooks");
+      const closeModal = document.getElementById("closeModal");
+
+      document.querySelectorAll(".author").forEach((author) => {
+        author.addEventListener("click", () => {
+          const data = authors[author.dataset.author];
+          modalTitle.textContent = data.name;
+          modalBooks.innerHTML = "";
+          data.books.forEach((book) => {
+            const li = document.createElement("li");
+            li.innerHTML = `<strong>${book.title}</strong> — ${book.desc}`;
+            modalBooks.appendChild(li);
+          });
+          modal.style.display = "flex";
+        });
+      });
+
+      closeModal.addEventListener("click", () => {
+        modal.style.display = "none";
+      });
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) modal.style.display = "none";
+      });
+    </script>
+
+    <footer>
+      <a href="Main.html">← Back to Home</a>
+    </footer>
+  </body>
+</html>
