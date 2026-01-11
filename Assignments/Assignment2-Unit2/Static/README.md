@@ -1,6 +1,16 @@
 ### Overview
 
-This is an attempt on Asignment by way of incorporating HTML, CSS and JS to improve the interactivity and appearence of the personal portfolio website built up from Assignment 1.
+This is an attempt on Assignment by way of incorporating HTML, CSS and JS to improve the interactivity and appearence of the personal portfolio website built up from Assignment 1.
+
+This unit understandably seemed a bit more technical than the Unit 1 as we move to more intense course areas and I felt the pressure of a boot camp. Some topics took innumnerous revisit to the class recordings or various You Tube videos to understand the concepts. I started with a draft of the personal website that I wanted to present by adding interactivity with JS, however, it kept evolving based on my limited know-how on the topics covered. This frustrated me and I turned to AI to understand these concepts better.
+
+I used AI tools to understand the different concepts used in JS and the way to marry themn with basic HTML and CSS that was the base of my 1st assignment. I got clarification on conditional statements like if and else, on logical operators like && and || so I could use them appropriately and local storage using sessionStorage to store the quiz answers on the landing page across the pages and modals.
+
+This helped me organise the structure and the layout of the webpage as new concepts were introduced throughout the unit. It helped me improve the codes and correct them where necessary. However, at times I realised it was really easy to become reliant on AI for solutions so I conciously made effort to review and understand the solutions provided although I realise and recognise that I may have relied on LML's support more than intended in certain instances.
+
+This is a point of improvement for me going forward as over-dependance could hinder my learning outcomes and limit my personal and academic learning curve.
+
+Below are the importants points throughout the website assignment.
 
 The nav bar on the webpage displays:
 
